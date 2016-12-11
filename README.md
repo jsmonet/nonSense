@@ -19,7 +19,16 @@ The colours! Using brit spelling because the API also deploys the U of doom. Er.
 
 I'm only including this link so I don't have to search it in the future.
 
+Something to copypasta into files for simple color declaration:
 
+~~~~
+red = (255, 0, 0)
+yellow = (255, 255, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+aqua = (0, 255, 255)
+white = (255, 255, 255)
+~~~~
 
 **Use of the files in this repo:**
 
