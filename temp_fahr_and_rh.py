@@ -22,6 +22,6 @@ rh = "{0:.1f}".format(longrh)
 # And now we'll write it to the LED panel on the SenseHat
 # in green because I like green.
 sense.show_message(temp + "F & ", text_colour=[0, 255, 0])
-sense.show_message(rh + "%%rH", text_colour=[0, 0, 255])
+sense.show_message(rh + "%rH", text_colour=[0, 0, 255])
 
 # COMMENTS!
