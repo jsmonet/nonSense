@@ -17,11 +17,11 @@ def tofahr(celsius):
 longtemp = tofahr(sense.get_temperature())
 longrh = sense.get_humidity()
 # And then trim the output to 2 sig figs.
-temp = "{0:.2f}".format(longtemp)
+temp = "{0:.1f}".format(longtemp) # I like the shorter format
 rh = "{0:.1f}".format(longrh)
 # And now we'll write it to the LED panel on the SenseHat
 # in green because I like green.
 sense.show_message(temp + "F & ", text_colour=[0, 255, 0])
-sense.show_message(rh + "RH", text_colour=[0, 0, 255])
+sense.show_message(rh + "%%rH", text_colour=[0, 0, 255])
 
 # COMMENTS!

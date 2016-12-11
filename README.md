@@ -12,7 +12,17 @@ sudo reboot
 
 This is taken directly from the link above.
 
-Use of the files in this repo:
+**Resources I'm using**
+http://cloford.com/resources/colours/500col.htm
+
+The colours! Using brit spelling because the API also deploys the U of doom. Er... dooum?
+
+I'm only including this link so I don't have to search it in the future.
+
+
+
+**Use of the files in this repo:**
+
 Python 2.7.x is my jam. If you use Python3 on **show_text.py** it will throw an error because I didn't write it for 3. SO LAZY I know.
 
 **display_temp_fahr.py** is simply run. I prefer to run it explicitly with `python` like this:
@@ -35,4 +45,4 @@ limits the significant figures to 2.
 
 This will display quote-wrapped text, rotated 270 degrees.
 
-Alright, I've commented the files out in my typical moderately helpful, yet supremely crass manner. 
+Alright, I've commented the files out in my typical moderately helpful, yet supremely crass manner.
