@@ -30,11 +30,11 @@ rh = "{0:.1f}".format(longrh)
 # And now we'll write it to the LED panel on the SenseHat
 # in green because I like green.
 if longtemp < 65.0:
-    longtempcolour = blue
+    tempcolour = blue
 elif longtemp >= 65.0 and longtemp < 70.0:
-    longtempcolour = aqua
+    tempcolour = aqua
 elif longtemp >= 70.0 and longtemp < 76.0:
-    longtempcolour = green
+    tempcolour = green
 elif longtemp >= 76.0 and longtemp < 80.0:
     tempcolour = yellow
 else:
