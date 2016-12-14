@@ -1,5 +1,6 @@
 from sense_hat import SenseHat
 sense = SenseHat()
+import sys
 # Start every SenseHat file with this because SenseHat.
 
 sense.set_rotation(180)
@@ -52,9 +53,13 @@ elif longrh >= 50 and longrh < 70:
     rhcolour = yellow
 else:
     rhcolour = red
-
-sense.show_message(temp + "F ", text_colour=tempcolour)
-sense.show_message("& ", text_colour=white)
-sense.show_message(rh + "%rH", text_colour=rhcolour)
+try:
+    sense.show_message(temp + "F ", text_colour=tempcolour)
+    sense.show_message("& ", text_colour=white)
+    sense.show_message(rh + "%rH", text_colour=rhcolour)
+except KeyboardInterrupt:
+    print "Killed"
+    sense.clear() # clear the LED
+    sys.exit(0) # no need for a non-clean exit code
 
 # COMMENTS!
