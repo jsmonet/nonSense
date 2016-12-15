@@ -4,10 +4,10 @@ from sense_hat import SenseHat
 sense = SenseHat()
 astroact = astroact()
 
-print "Please select an action from the list:" \
-    "1: Temp" \
-    "2: rH" \
-    "3: Temp & rH"
+print "Please select an action from the list:\n" \
+    "1: Temp\n" \
+    "2: rH\n" \
+    "3: Temp & rH\n"
 choice = input("Please enter 1, 2, or 3: ")
 
 if choice == 1:
