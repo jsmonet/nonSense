@@ -55,3 +55,9 @@ limits the significant figures to 2.
 This will display quote-wrapped text, rotated 270 degrees.
 
 Alright, I've commented the files out in my typical moderately helpful, yet supremely crass manner.
+
+**testactions.py** prompts cli for what you want to do. I plan to use this as a basis for joystick-driven reactions. The scheme is down and repeatable now. Calls astroact.py in the same dir
+
+**astroact.py** called by testactions.py. It has a lot of globals, and I'm not hugely jazzed about that, but they are limited to the file so it's not SUCH a huge deal at this moment, running on a pi, where it will always live.
+
+I'll write a joystick.py soon to trigger these events. I want to make it a systemd unit and have it idle.
