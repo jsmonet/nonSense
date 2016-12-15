@@ -3,22 +3,26 @@ from sense_hat import SenseHat
 sense = SenseHat() # Start every SenseHat file with this because SenseHat.
 
 
-class actroact:
+class astroact:
     # colors, or colours
+    global red
     red = (255, 0, 0)
+    global yellow
     yellow = (255, 255, 0)
+    global green
     green = (0, 255, 0)
+    global blue
     blue = (0, 0, 255)
+    global aqua
     aqua = (0, 255, 255)
+    global white
     white = (255, 255, 255)
-
-    # SenseHat returns celsius, the temp scale of oppression.
-    # Let's convert it to glorious units of confusing freedom
-
-    def showtemp():
+    
+    sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
+    
+    def showtemp(self):
         def tofahr(celsius):
-            return( (celsius/5*9)+32 )
-        # Freedom done. Let's load a var with that function
+            return ( (celsius/5*9)+32)
         longtemp = tofahr(sense.get_temperature())
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
         if longtemp < 65.0:
@@ -36,9 +40,9 @@ class actroact:
         except KeyboardInterrupt:
             print "Killed"
             sense.clear() # clear the LED
-            sys.exit(0) # no need for a non-clean exit code
+            sys.exit(0) # no need for a non-clean exit code 
 
-    def showrh():
+    def showrh(self):
         longrh = sense.get_humidity()
         # And then trim the output to 2 sig figs.
         rh = "{0:.1f}".format(longrh)
@@ -61,6 +65,15 @@ class actroact:
             sense.show_message(rh + "%rH", text_colour=rhcolour)
         except KeyboardInterrupt:
             print "Killed"
-            sense.clear() # clear the LED
-            sys.exit(0) # no need for a non-clean exit code
-# COMMENTS!
+            sense.clear()
+            sys.exit(0)
+
+    def showboth(self):
+        try:
+            astroact.showtemp(self)
+            sense.show_message("&", text_colour=white)
+            astroact.showrh(self)
+        except KeyboardInterrupt:
+            print "Killed"
+            sense.clear()
+            sys.exit(0)
