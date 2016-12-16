@@ -1,9 +1,25 @@
+from sys import argv
 from sense_hat import SenseHat
 sense = SenseHat()
 import sys
 # Start every SenseHat file with this because SenseHat.
 
-sense.set_rotation(180)
+if len(sys.argv) > 1:
+    rot = sys.argv[1]
+else:
+    rot = '180'
+
+if not rot or rot is '180':
+    sense.set_rotation(180)
+elif rot is "90":
+    sense.set_rotation(90)
+elif rot is '0':
+    sense.set_rotation()
+elif rot is "270":
+    sense.set_rotation(270)
+else: # anything else typed in here at all. 
+    sense.set_rotation(0) # because cheating 
+
 # It's up on it's side on my desk, USB/Eth ports pointing left
 # this makes the output readable for me. I'm setting it up here
 # because this file is tiny and containment isn't a big deal
