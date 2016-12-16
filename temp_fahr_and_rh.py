@@ -5,7 +5,7 @@ sense = SenseHat()
 
 if len(sys.argv) > 1:
     rot = sys.argv[1]
-else: 
+else:
     rot = "0"
 
 if rot in ['0', '90', '180', '270']:
@@ -13,6 +13,7 @@ if rot in ['0', '90', '180', '270']:
 else:
     sense.set_rotation()
 
+red = (255, 0, 0)
 yellow = (255, 255, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
