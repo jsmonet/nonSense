@@ -1,31 +1,18 @@
-from sys import argv
+import sys
 from sense_hat import SenseHat
 sense = SenseHat()
-import sys
 # Start every SenseHat file with this because SenseHat.
 
 if len(sys.argv) > 1:
     rot = sys.argv[1]
+else: 
+    rot = "0"
+
+if rot in ['0', '90', '180', '270']:
+    sense.set_rotation(int(rot))
 else:
-    rot = '180' # this is most easily read with the hat directly on the pi, pi on its side with power facing up
-
-if rot is '0':
     sense.set_rotation()
-elif rot is "90":
-    sense.set_rotation(90)
-elif rot is '180':
-    sense.set_rotation(180)
-elif rot is "270":
-    sense.set_rotation(270)
-else: # anything else typed in here at all.
-    sense.set_rotation() # because cheating
 
-# It's up on it's side on my desk, USB/Eth ports pointing left
-# this makes the output readable for me. I'm setting it up here
-# because this file is tiny and containment isn't a big deal
-
-# colors, or colours
-red = (255, 0, 0)
 yellow = (255, 255, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)

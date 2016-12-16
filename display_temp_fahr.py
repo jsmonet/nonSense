@@ -4,19 +4,15 @@ sense = SenseHat()
 # Start every SenseHat file with this because SenseHat.
 if len(sys.argv) > 1:
     rot = sys.argv[1]
-else:
-    rot = '180'
+else: 
+    rot = "0"
+    print "no argv set, defaulting to zero" # this py file is mainly for on-desk debug
 
-if not rot or rot is '180':
-    sense.set_rotation(180)
-elif rot is "90":
-    sense.set_rotation(90)
-elif rot is '0':
+if rot in ['0', '90', '180', '270']:
+    sense.set_rotation(int(rot))
+else:
+    print "no value set, defaulting to zero"
     sense.set_rotation()
-elif rot is "270":
-    sense.set_rotation(270)
-else: # anything else typed in here at all. 
-    sense.set_rotation(0) # because cheating 
 
 # It's up on it's side on my desk, USB/Eth ports pointing left
 # this makes the output readable for me. I'm setting it up here
