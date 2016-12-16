@@ -12,6 +12,12 @@ longrh = sense.get_humidity()
 temp = "{0:.1f}".format(longtemp) # I like the shorter format
 rh = "{0:.1f}".format(longrh)
 
-print "The temp is " + temp + " and the humidity is " + rh 
+# using this with slacktee to CHATOPSZOMG. actually, I want it to 
+# notify @channel when the value exceeds a certain value. 
+
+if longtemp > 80:
+    print "@channel The temp is " + temp + " and the humidity is " + rh
+else:
+    print "The temp is " + temp + " and the humidity is " + rh 
 
 # COMMENTS!
