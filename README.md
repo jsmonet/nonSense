@@ -61,3 +61,11 @@ Alright, I've commented the files out in my typical moderately helpful, yet supr
 **astroact.py** called by testactions.py. It has a lot of globals, and I'm not hugely jazzed about that, but they are limited to the file so it's not SUCH a huge deal at this moment, running on a pi, where it will always live.
 
 I'll write a joystick.py soon to trigger these events. I want to make it a systemd unit and have it idle.
+
+Just tucking this right here for the email config builder to work. 
+
+sudo pip install validate_email
+
+sudo pip install pyDNS
+
+You need to pip install as root the above packages in order for validate_email to work AND validate the legitimacy of the addresses
