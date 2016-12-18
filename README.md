@@ -69,3 +69,5 @@ sudo pip install validate_email
 sudo pip install pyDNS
 
 You need to pip install as root the above packages in order for validate_email to work AND validate the legitimacy of the addresses
+
+Adding a line here mainly for dual push test
