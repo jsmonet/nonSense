@@ -22,14 +22,29 @@ def get_gm_passwd():
         gmpasswd = raw_input('You entered nothing. What is the app password for this Gmail account? > ')
     return gmpasswd
 
+def get_toaddrs():
+    global tocsl
+    toaddrs = []
+    rawtos = raw_input('Enter recipient email addresses separated only by spaces: ')
+    tolist = rawtos.split()
+    for addy in tolist:
+        tovalid = validate_email(addy)
+        if not tovalid:
+            print addy + " is not valid. excluding from list"
+        else:
+            toaddrs.append(addy)
+    tocsl = ','.join(map(str, toaddrs))
+
 def make_cfg_file():
     try:
         get_gm_user()
         get_gm_passwd()
+        get_toaddrs()
         con.add_section('gmail')
         con.set('gmail', 'user', gmuser)
         con.set('gmail', 'password', gmpasswd)
         con.set('gmail', 'server', 'smtp.gmail.com:587')
+        con.set('gmail', 'toaddresses', tocsl)
         # just fyi, you can path the file relatively. open('../file.cfg' works
         with open('gmail.cfg', 'wb') as cfgfile:
             con.write(cfgfile)
