@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from sense_hat import SenseHat
 sense = SenseHat() # Start every SenseHat file with this because SenseHat.
 
@@ -19,11 +20,12 @@ class astroact:
     white = (255, 255, 255)
     
     sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
-    
+    def tofahr(self):
+        tempc = sense.get_temperature()
+        return ( (tempc/5*9)+32)
     def showtemp(self):
-        def tofahr(celsius):
-            return ( (celsius/5*9)+32)
-        longtemp = tofahr(sense.get_temperature())
+        longtemp = astroact.tofahr(self)
+        #longtemp = astroact.tofahr(sense.get_temperature())
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
         if longtemp < 65.0:
             tempcolour = blue
@@ -41,6 +43,14 @@ class astroact:
             print "Killed"
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code 
+
+    def slacktemp(self):
+        longtemp = astroact.tofahr(self)
+        temp = "{0:.1f}".format(longtemp) # I like the shorter format
+        cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | slacktee"
+        ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        ps = ps.communicate()[0]
+        print ps
 
     def showrh(self):
         longrh = sense.get_humidity()
@@ -77,3 +87,4 @@ class astroact:
             print "Killed"
             sense.clear()
             sys.exit(0)
+
