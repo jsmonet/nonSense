@@ -7,9 +7,9 @@ from email.mime.text import MIMEText
 con = ConfigParser.RawConfigParser()
 con.read('gmail.cfg')
 
-fromaddr = con.get('gmail', 'user') 
+fromaddr = con.get('gmail', 'user')
 tostr = con.get('gmail', 'toaddresses')
-toaddr = tostr.split()
+toaddr = tostr.split(',')
 subject = 'a python test mail'
 username = fromaddr
 passwd = con.get('gmail', 'password')
