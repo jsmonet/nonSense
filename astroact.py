@@ -1,6 +1,9 @@
 import sys
 import subprocess
 from sense_hat import SenseHat
+import smtplib
+import ConfigParser
+from email.mime.text import MIMEText
 sense = SenseHat() # Start every SenseHat file with this because SenseHat.
 
 
@@ -43,10 +46,12 @@ class astroact:
             print "Killed"
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code
-
+    def slackit(message):
+        cmd ="echo " + str(message) + " | slacktee"
+        aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        aps = aps.communicate()[0]
+        print aps
     def slacktemp(self):
-        longtemp = astroact.tofahr(self)
-        temp = "{0:.1f}".format(longtemp) # I like the shorter format
         cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         ps = ps.communicate()[0]
@@ -99,3 +104,34 @@ class astroact:
             print "Killed"
             sense.clear()
             sys.exit(0)
+
+    def mailer(message):
+        con = ConfigParser.RawConfigParser()
+        con.read('gmail.cfg')
+
+        fromaddr = con.get('gmail', 'user')
+        tostr = con.get('gmail', 'toaddresses')
+        toaddr = tostr.split(',')
+        subject = 'a python test mail'
+        username = fromaddr
+        passwd = con.get('gmail', 'password')
+        server = con.get('gmail', 'server')
+        msg['Subject'] = subject
+        msg['From'] = fromaddr
+        msg['To'] = tostr
+        msg = MIMEText(""message"")
+
+        try:
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.ehlo()
+            server.starttls()
+            server.login(username, passwd)
+            server.sendmail(fromaddr, toaddr, msg.as_string())
+            server.close()
+            print 'successfully sent'
+        except:
+            print 'failed miserably'
+
+
+    def sensewithalerts(self):
+        ctemp = sense.get_temperature()
