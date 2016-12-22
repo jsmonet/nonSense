@@ -18,7 +18,7 @@ class astroact:
     aqua = (0, 255, 255)
     global white
     white = (255, 255, 255)
-    
+
     sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
     def tofahr(self):
         tempc = sense.get_temperature()
@@ -42,7 +42,7 @@ class astroact:
         except KeyboardInterrupt:
             print "Killed"
             sense.clear() # clear the LED
-            sys.exit(0) # no need for a non-clean exit code 
+            sys.exit(0) # no need for a non-clean exit code
 
     def slacktemp(self):
         longtemp = astroact.tofahr(self)
@@ -88,3 +88,14 @@ class astroact:
             sense.clear()
             sys.exit(0)
 
+    def temprhslack():
+        ctemp = sense.get_temperature()
+        try:
+            if ctemp > 26.667: astroact.slacktemp(self)
+            astroact.showtemp(self)
+            sense.show_message("&", text_colour=white)
+            astroact.showrh(self)
+        except KeyboardInterrupt:
+            print "Killed"
+            sense.clear()
+            sys.exit(0)
