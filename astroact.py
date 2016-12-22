@@ -88,7 +88,7 @@ class astroact:
             sense.clear()
             sys.exit(0)
 
-    def temprhslack():
+    def temprhslack(self):
         ctemp = sense.get_temperature()
         try:
             if ctemp > 26.667: astroact.slacktemp(self)
