@@ -62,7 +62,7 @@ Alright, I've commented the files out in my typical moderately helpful, yet supr
 
 I'll write a joystick.py soon to trigger these events. I want to make it a systemd unit and have it idle.
 
-Just tucking this right here for the email config builder to work. 
+Just tucking this right here for the email config builder to work.
 
 sudo pip install validate_email
 
@@ -70,4 +70,53 @@ sudo pip install pyDNS
 
 You need to pip install as root the above packages in order for validate_email to work AND validate the legitimacy of the addresses
 
-Adding a line here mainly for dual push test
+**But wait, there are holes**
+
+Yeah, I wanted to python up the entire load-in, but we use [Puppet](http://www.puppet.com) for config management and rockin an ERB for these little holes is just WAY easier.
+
+To give you an idea of how these are set up, scope my puppet:
+
+~~~~
+# packages first
+package { 'git':
+  ensure => installed,
+}
+package { 'python-pip':
+  ensure => installed,
+}
+package { 'pyDNS':
+  ensure   => installed,
+  provider => 'pip',
+  require => Package['python-pip'],
+}
+package { 'validate_email':
+  ensure   => installed,
+  provider => 'pip',
+  require => Package['python-pip'],
+}
+package { 'sense-hat':
+  ensure   => installed,
+}
+vcsrepo { '/opt/nonSense':
+  ensure   => latest,
+  provider => git,
+  excludes => ['.git', '.gitignore'],
+  source   => 'https://github.com/jsmonet/nonSense.git',
+  require  => Package['git'],
+}
+# set slacktee vars for erb
+# this works just fine. Only reason to pull from the repo again would
+# be to fix security issues with slacktee.
+$slackchan = 'viruses'
+$slackname = "Pi in $hostname"
+file { '/usr/local/bin/slacktee':
+  ensure   => file,
+  content  => template('fury/slacktee_dot_sh.erb'),
+  mode     => '0755',
+}
+cron { 'monitoring':
+  command => "/usr/bin/python /opt/nonSense/tf_dis_slack.py 180",
+  user => 'root',
+  minute => '*/1',
+}
+~~~~
