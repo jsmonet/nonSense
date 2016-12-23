@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import platform
 from sense_hat import SenseHat
 import smtplib
 import ConfigParser
@@ -23,12 +24,13 @@ class astroact:
     white = (255, 255, 255)
 
     sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
+   
     def tofahr(self):
         tempc = sense.get_temperature()
         return ( (tempc/5*9)+32)
+    
     def showtemp(self):
         longtemp = astroact.tofahr(self)
-        #longtemp = astroact.tofahr(sense.get_temperature())
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
         if longtemp < 65.0:
             tempcolour = blue
@@ -46,11 +48,21 @@ class astroact:
             print "Killed"
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code
-    def slackit(message):
+    
+    def getvals(self):
+        longtemp = astroact.tofahr(self)
+        temp = "{0:.1f}".format(longtemp) # I like the shorter format
+        longrh = sense.get_humidity()
+        rh = "{0:.1f}".format(longrh)
+        values = "Temp is {0}F and rH is {1}%".format(temp, rh)
+        return values
+
+    def slackit(self, message):
         cmd ="echo " + str(message) + " | slacktee"
         aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         aps = aps.communicate()[0]
         print aps
+  
     def slacktemp(self):
         cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
@@ -95,8 +107,14 @@ class astroact:
 
     def temprhslack(self):
         ctemp = sense.get_temperature()
+        crh = sense.get_humidity()
         try:
-            if ctemp > 26.667: astroact.slacktemp(self)
+            if ctemp > 26.667 or crh > 55: 
+                astroact.slacktemp(self)
+            elif ctemp > 29.44 or crh > 65:
+                astroact.slacktemp(self)
+                alertmsg = str(astroact.getvals(self))
+                astroact.mailer(self, alertmsg)
             astroact.showtemp(self)
             sense.show_message("&", text_colour=white)
             astroact.showrh(self)
@@ -105,21 +123,21 @@ class astroact:
             sense.clear()
             sys.exit(0)
 
-    def mailer(message):
+    def mailer(self, message):
         con = ConfigParser.RawConfigParser()
         con.read('gmail.cfg')
-
+        piname = platform.node()
         fromaddr = con.get('gmail', 'user')
         tostr = con.get('gmail', 'toaddresses')
         toaddr = tostr.split(',')
-        subject = 'a python test mail'
+        subject = "Cab %s value out of range" % piname 
         username = fromaddr
         passwd = con.get('gmail', 'password')
         server = con.get('gmail', 'server')
+        msg = MIMEText(message) 
         msg['Subject'] = subject
         msg['From'] = fromaddr
         msg['To'] = tostr
-        msg = MIMEText(""message"")
 
         try:
             server = smtplib.SMTP("smtp.gmail.com", 587)
