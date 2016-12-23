@@ -12,6 +12,21 @@ sudo reboot
 
 This is taken directly from the link above.
 
+**The "why"**
+
+I'm using this project to run multiple rpi in a datacenter for some out of band monitoring and haaaated needing to set up yet another bunch of snmp traps plus spend a week cabling up all of the LCP in our Rittal IRC system. It's a great system--a bunch of air-water heat exchangers spaced every 2 cabs with full environmental monitoring...running windows CE. Well, yeah, there ya go. Instead of spending the time and money getting all that copper run, I'm dropping a handful of these minions into specific cabs and keeping our internal documentation tight with their locations. Additionally, I've set up key distro via config management and am laying down the various unique files via templates placed by the same config management.
+
+**How to use:**
+
+Not every file in this repo is useful. In fact, most aren't. On top of that you'll likely be missing some files by just cloning. Let's get started.
+
+1. Clone the repo to /opt/nonSense on your Pi. If you have trouble with this step... don't have trouble with this step
+* Make sure you have the necessary packages installed. `apt-get install python-pip sense-hat` and restart if necessary
+* If you are looking to use email notification and you are not using config management, go into /opt/nonSense and run smtpcfg_builder.py. This will generate /opt/nonSense/gmail.cfg. Obviously I wrote this for use with a 2fa-enabled gmail account using an app password.
+* For slack integration, go grab the slacktee repo and put `slacktee.sh` in `/usr/local/bin` as `/usr/local/bin/slacktee` and make sure you edit the default config in that file, or place a `.slacktee` in the home folder of your service account
+
+Most everything is either currently, or will soon reference `astroact.py`. I have to take off right meow, so this will get more attention in a few days. <3
+
 **Resources I'm using**
 http://cloford.com/resources/colours/500col.htm
 
