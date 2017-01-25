@@ -58,13 +58,13 @@ class astroact:
         return values
 
     def slackit(self, message):
-        cmd ="echo " + str(message) + " | slacktee"
+        cmd ="echo " + str(message) + " | /usr/local/bin/slacktee"
         aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         aps = aps.communicate()[0]
         print aps
   
     def slacktemp(self):
-        cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | slacktee"
+        cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | /usr/local/bin/slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         ps = ps.communicate()[0]
         print ps
