@@ -24,11 +24,11 @@ class astroact:
     white = (255, 255, 255)
 
     sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
-   
+
     def tofahr(self):
         tempc = sense.get_temperature()
         return ( (tempc/5*9)+32)
-    
+
     def showtemp(self):
         longtemp = astroact.tofahr(self)
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
@@ -48,7 +48,7 @@ class astroact:
             print "Killed"
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code
-    
+
     def getvals(self):
         longtemp = astroact.tofahr(self)
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
@@ -62,7 +62,7 @@ class astroact:
         aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         aps = aps.communicate()[0]
         print aps
-  
+
     def slacktemp(self):
         cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | /usr/local/bin/slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
@@ -109,9 +109,9 @@ class astroact:
         ctemp = sense.get_temperature()
         crh = sense.get_humidity()
         try:
-            if ctemp > 26.667 or crh > 55: 
+            if ctemp > 26.667 or crh > 62:
                 astroact.slacktemp(self)
-            elif ctemp > 29.44 or crh > 65:
+            elif ctemp > 29.44 or crh > 67:
                 astroact.slacktemp(self)
                 alertmsg = str(astroact.getvals(self))
                 astroact.mailer(self, alertmsg)
@@ -130,11 +130,11 @@ class astroact:
         fromaddr = con.get('gmail', 'user')
         tostr = con.get('gmail', 'toaddresses')
         toaddr = tostr.split(',')
-        subject = "Cab %s value out of range" % piname 
+        subject = "Cab %s value out of range" % piname
         username = fromaddr
         passwd = con.get('gmail', 'password')
         server = con.get('gmail', 'server')
-        msg = MIMEText(message) 
+        msg = MIMEText(message)
         msg['Subject'] = subject
         msg['From'] = fromaddr
         msg['To'] = tostr
