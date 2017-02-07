@@ -18,7 +18,7 @@ else:
 try:
     astro.temprhslack()
 except KeyboardInterrupt:
-    print "Killed"
+    print ("Killed")
     sense.clear() # clear the LED
     sys.exit(0) # no need for a non-clean exit code
 

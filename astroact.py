@@ -3,7 +3,7 @@ import subprocess
 import platform
 from sense_hat import SenseHat
 import smtplib
-import ConfigParser
+import configparser
 from email.mime.text import MIMEText
 sense = SenseHat() # Start every SenseHat file with this because SenseHat.
 
@@ -45,7 +45,7 @@ class astroact:
         try:
             sense.show_message(temp + "F ", text_colour=tempcolour)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code
     
@@ -61,13 +61,13 @@ class astroact:
         cmd ="echo " + str(message) + " | /usr/local/bin/slacktee"
         aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         aps = aps.communicate()[0]
-        print aps
+        print (aps)
   
     def slacktemp(self):
         cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | /usr/local/bin/slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         ps = ps.communicate()[0]
-        print ps
+        print (ps)
 
     def showrh(self):
         longrh = sense.get_humidity()
@@ -91,7 +91,7 @@ class astroact:
         try:
             sense.show_message(rh + "%rH", text_colour=rhcolour)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -101,7 +101,7 @@ class astroact:
             sense.show_message("&", text_colour=white)
             astroact.showrh(self)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -119,7 +119,7 @@ class astroact:
             sense.show_message("&", text_colour=white)
             astroact.showrh(self)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -146,9 +146,9 @@ class astroact:
             server.login(username, passwd)
             server.sendmail(fromaddr, toaddr, msg.as_string())
             server.close()
-            print 'successfully sent'
+            print ('successfully sent')
         except:
-            print 'failed miserably'
+            print ('failed miserably')
 
 
     def sensewithalerts(self):
