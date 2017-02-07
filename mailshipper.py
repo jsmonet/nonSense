@@ -1,10 +1,10 @@
 import os
 import sys
 import smtplib
-import ConfigParser
+import configparser
 from email.mime.text import MIMEText
 
-con = ConfigParser.RawConfigParser()
+con = configparser.RawConfigParser()
 con.read('gmail.cfg')
 
 fromaddr = con.get('gmail', 'user')
@@ -28,6 +28,6 @@ try:
     server.login(username, passwd)
     server.sendmail(fromaddr, toaddr, msg.as_string())
     server.close()
-    print 'successfully sent'
+    print ('successfully sent')
 except:
-    print 'failed miserably'
+    print ('failed miserably')
