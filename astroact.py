@@ -109,9 +109,9 @@ class astroact:
         ctemp = sense.get_temperature()
         crh = sense.get_humidity()
         try:
-            if ctemp > 26.667 or crh > 62:
+            if ctemp > 26.667 or crh > 64:
                 astroact.slacktemp(self)
-            elif ctemp > 29.44 or crh > 67:
+            elif ctemp > 29.44 or crh > 68:
                 astroact.slacktemp(self)
                 alertmsg = str(astroact.getvals(self))
                 astroact.mailer(self, alertmsg)
