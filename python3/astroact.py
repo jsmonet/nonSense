@@ -3,7 +3,7 @@ import subprocess
 import platform
 from sense_hat import SenseHat
 import smtplib
-import ConfigParser
+import configparser
 from email.mime.text import MIMEText
 sense = SenseHat() # Start every SenseHat file with this because SenseHat.
 
@@ -24,11 +24,11 @@ class astroact:
     white = (255, 255, 255)
 
     sense.set_rotation(180) # set rotation here because these functions' outputs do not inherit rotation spec from other files importing this one
-
+   
     def tofahr(self):
         tempc = sense.get_temperature()
         return ( (tempc/5*9)+32)
-
+    
     def showtemp(self):
         longtemp = astroact.tofahr(self)
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
@@ -45,10 +45,10 @@ class astroact:
         try:
             sense.show_message(temp + "F ", text_colour=tempcolour)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear() # clear the LED
             sys.exit(0) # no need for a non-clean exit code
-
+    
     def getvals(self):
         longtemp = astroact.tofahr(self)
         temp = "{0:.1f}".format(longtemp) # I like the shorter format
@@ -61,13 +61,13 @@ class astroact:
         cmd ="echo " + str(message) + " | /usr/local/bin/slacktee"
         aps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         aps = aps.communicate()[0]
-        print aps
-
+        print (aps)
+  
     def slacktemp(self):
         cmd ="/usr/bin/python /opt/nonSense/cli_temp_rh.py | /usr/local/bin/slacktee"
         ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         ps = ps.communicate()[0]
-        print ps
+        print (ps)
 
     def showrh(self):
         longrh = sense.get_humidity()
@@ -91,7 +91,7 @@ class astroact:
         try:
             sense.show_message(rh + "%rH", text_colour=rhcolour)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -101,7 +101,7 @@ class astroact:
             sense.show_message("&", text_colour=white)
             astroact.showrh(self)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -109,9 +109,9 @@ class astroact:
         ctemp = sense.get_temperature()
         crh = sense.get_humidity()
         try:
-            if ctemp > 26.667 or crh > 64:
+            if ctemp > 26.667 or crh > 55: 
                 astroact.slacktemp(self)
-            elif ctemp > 29.44 or crh > 68:
+            elif ctemp > 29.44 or crh > 65:
                 astroact.slacktemp(self)
                 alertmsg = str(astroact.getvals(self))
                 astroact.mailer(self, alertmsg)
@@ -119,7 +119,7 @@ class astroact:
             sense.show_message("&", text_colour=white)
             astroact.showrh(self)
         except KeyboardInterrupt:
-            print "Killed"
+            print ("Killed")
             sense.clear()
             sys.exit(0)
 
@@ -130,11 +130,11 @@ class astroact:
         fromaddr = con.get('gmail', 'user')
         tostr = con.get('gmail', 'toaddresses')
         toaddr = tostr.split(',')
-        subject = "Cab %s value out of range" % piname
+        subject = "Cab %s value out of range" % piname 
         username = fromaddr
         passwd = con.get('gmail', 'password')
         server = con.get('gmail', 'server')
-        msg = MIMEText(message)
+        msg = MIMEText(message) 
         msg['Subject'] = subject
         msg['From'] = fromaddr
         msg['To'] = tostr
@@ -146,9 +146,9 @@ class astroact:
             server.login(username, passwd)
             server.sendmail(fromaddr, toaddr, msg.as_string())
             server.close()
-            print 'successfully sent'
+            print ('successfully sent')
         except:
-            print 'failed miserably'
+            print ('failed miserably')
 
 
     def sensewithalerts(self):

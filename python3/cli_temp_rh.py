@@ -12,6 +12,6 @@ longrh = sense.get_humidity()
 temp = "{0:.1f}".format(longtemp) # I like the shorter format
 rh = "{0:.1f}".format(longrh)
 
-print "The temp is " + temp + " and the humidity is " + rh 
+print ("The temp is " + temp + " and the humidity is " + rh)
 
 # COMMENTS!

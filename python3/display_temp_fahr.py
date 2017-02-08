@@ -6,12 +6,12 @@ if len(sys.argv) > 1:
     rot = sys.argv[1]
 else: 
     rot = "0"
-    print "no argv set, defaulting to zero" # this py file is mainly for on-desk debug
+    print ("no argv set, defaulting to zero")
 
 if rot in ['0', '90', '180', '270']:
     sense.set_rotation(int(rot))
 else:
-    print "no value set, defaulting to zero"
+    print ("no value set, defaulting to zero")
     sense.set_rotation()
 
 # It's up on it's side on my desk, USB/Eth ports pointing left
